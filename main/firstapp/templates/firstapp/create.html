@@ -1,0 +1,83 @@
+{% extends 'firstapp/base.html' %}
+
+{% block title %}
+Создать статью
+{% endblock %}
+
+{% block content %}
+    <h1>Создать запись</h1>
+    <form class="form-horizontal form_middle" enctype='multipart/form-data' method="post">
+        {% csrf_token %}
+        {{ form.title }}<br>
+        {{ form.opis }}<br>
+        {{ form.photo }}<br>
+        Виберите страну:
+        {{ form.strana }}
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#stranaModal">Нет нужной страны?</button><br><br>
+        Виберите класс:
+        {{ form.klas }}
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#klasModel">Нет нужного класа техники?</button><br><br>
+        {{ form.silka }}<br>
+        {% if request.user.is_authenticated %}
+        <button type="submit" class="btn btn-success">Предложить публикацию</button>
+        <span>{{ error }}</span>
+        {% else %}
+        <h5>Для предложения записи нужно ввойти в акаунт</h5>
+        {% endif %}
+    </form>
+
+<div class="modal fade" id="stranaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="stranaModalLabel">Предложить добавление страны</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form class="form-horizontal form_middle" enctype='multipart/form-data' method="post">
+              {% csrf_token %}
+              {{ strana.title }}
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                  {% if request.user.is_authenticated %}
+                  <button type="submit" class="btn btn-success">Предложить</button>
+                  {% else %}
+                  <h10>Войдите в акаунт</h10>
+                  {% endif %}
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="klasModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="klasModelLabel">Предложить добавление класса</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form_middle" enctype='multipart/form-data' method="post">
+              {% csrf_token %}
+              {{ klas.title }}
+              <div class="modal-footer"><hr>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                  {% if request.user.is_authenticated %}
+                  <button type="submit" class="btn btn-success">Предложить</button>
+                  {% else %}
+                  <h10>Войдите в акаунт</h10>
+                  {% endif %}
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
