@@ -1,10 +1,10 @@
 # How to install
 
-0. Go to folder TankSite/main
-1. python -m venv ../venv
-2. pip install -r .\requirements.txt
-3. python manage.py makemigrations firstapp
-4. python manage.py migrate
+0. git clone https://github.com/farikan2018/TankSite
+1. Go to folder TankSite/main(cd TankSite/main)
+2. python -m venv ../venv
+3. ..\venv\Scripts\Activate.ps1
+4. pip install -r .\requirements.txt
 5. python manage.py runserver
 
 ----
