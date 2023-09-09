@@ -1,0 +1,57 @@
+def index(request):
+    tanks = Tank.objects.order_by('-id')
+    strana = Strana.objects.all()
+    klas = Klas.objects.all()
+    content = {
+        'tanks': tanks,
+        'strana': strana,
+        'klas': klas,
+    }
+    return render(request, 'firstapp/index.html', content)
+
+
+def get_strana(request, strana_id):
+    tanks = Tank.objects.filter(strana_id=strana_id).order_by('-id')
+    stranas = Strana.objects.get(pk=strana_id)
+    content = {
+        'tanks': tanks,
+        'stranas': stranas,
+    }
+    return render(request, 'firstapp/strana_sort.html', content)
+
+
+def get_klas(request, klas_id):
+    tanks = Tank.objects.filter(klas_id=klas_id).order_by('-id')
+    klass = Klas.objects.get(pk=klas_id)
+    content = {
+        'tanks': tanks,
+        'klass': klass
+    }
+    return render(request, 'firstapp/klas_sort.html', content)
+
+
+def create(request):
+    error = ''
+    if request.method == 'POST':
+        form = TankForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            error = 'Форма была неверной'
+
+    form = TankForm
+    elements = {
+        "form": form,
+        "error": error
+    }
+    return render(request, 'firstapp/create.html', elements)
+
+
+
+class RegisterView(CreateView):
+    form_class = RegisterForm
+    template_name = 'firstapp/register.html'
+    success_url = '/'
+
+
